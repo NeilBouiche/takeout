@@ -1,14 +1,19 @@
-import { useContext, useRef } from 'react'
+import { useContext } from 'react'
 import { GlobalContext } from '../utils/GlobalProvider'
-const Checkout = ({ formRef, errorMessage }) => {
-  const { state, dispatch } = useContext(GlobalContext)
+const Checkout = ({ formRef, errorMessage, onSubmit }) => {
+  const { state } = useContext(GlobalContext)
 
   return (
     <div className='mb-10'>
       <h3 className='text-xl font-bold mb-5'>Checkout</h3>
       <span>Total amount: ${state.totalPrice}</span>
       {errorMessage && <p className='text-red-400'>{errorMessage}</p>}
-      <form ref={formRef} action='#' method='#' className='flex flex-col'>
+      <form
+        ref={formRef}
+        action='#'
+        method='#'
+        onSubmit={onSubmit}
+        className='flex flex-col'>
         <label htmlFor='name'>Full Name</label>
         <input type='text' name='name' id='name' />
         <label htmlFor='email'>E-mail Address</label>

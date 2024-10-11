@@ -89,6 +89,15 @@ export const reducer = (state, action) => {
       }
     }
 
+    case 'RESET_CART':
+      return {
+        ...state,
+        cart: [],
+        totalQuantity: 0,
+        totalPrice: 0,
+        user: {},
+      }
+
     default:
       return state
   }

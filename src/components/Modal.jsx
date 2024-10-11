@@ -1,14 +1,20 @@
 import { forwardRef, useImperativeHandle, useRef } from 'react'
+import { useContext } from 'react'
+import { GlobalContext } from '../utils/GlobalProvider'
 
 const Modal = forwardRef(function Modal(
   { children, isCheckout, setIsCheckout, onConfirm, setFormError },
   ref
 ) {
+  const { state } = useContext(GlobalContext)
   const dialogRef = useRef(null)
 
   useImperativeHandle(ref, () => ({
     open: () => {
       dialogRef.current.showModal()
+    },
+    close: () => {
+      dialogRef.current.close()
     },
   }))
 
@@ -17,6 +23,11 @@ const Modal = forwardRef(function Modal(
     setFormError(null)
     setIsCheckout(false)
   }
+
+  const disabledButton =
+    'text-black bg-stone-400 text-md cursor-pointer rounded-md px-6 py-2'
+  const enabledButton =
+    'text-black bg-yellow-400 text-md cursor-pointer rounded-md hover:bg-yellow-500 px-6 py-2'
 
   return (
     <dialog
@@ -32,7 +43,8 @@ const Modal = forwardRef(function Modal(
         {!isCheckout ? (
           <button
             onClick={() => setIsCheckout(true)}
-            className='text-black bg-yellow-400 text-md cursor-pointer rounded-md hover:bg-yellow-500 px-6 py-2'>
+            disabled={state.totalPrice === 0 ? true : false}
+            className={state.totalPrice === 0 ? disabledButton : enabledButton}>
             Go To Checkout
           </button>
         ) : (

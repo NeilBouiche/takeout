@@ -2,7 +2,7 @@ import Items from './Items'
 import { useContext } from 'react'
 import { GlobalContext } from '../utils/GlobalProvider'
 const CartList = () => {
-  const { state, dispatch } = useContext(GlobalContext)
+  const { state } = useContext(GlobalContext)
   return (
     <div className='flex flex-col'>
       <span className='text-xl font-bold'>Your Cart</span>
