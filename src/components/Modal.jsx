@@ -1,7 +1,7 @@
 import { forwardRef, useImperativeHandle, useRef } from 'react'
 
 const Modal = forwardRef(function Modal(
-  { children, isCheckout, setIsCheckout },
+  { children, isCheckout, setIsCheckout, onConfirm, setFormError },
   ref
 ) {
   const dialogRef = useRef(null)
@@ -12,8 +12,9 @@ const Modal = forwardRef(function Modal(
     },
   }))
 
-  const handlClose = () => {
+  const handleClose = () => {
     dialogRef.current.close()
+    setFormError(null)
     setIsCheckout(false)
   }
 
@@ -24,7 +25,7 @@ const Modal = forwardRef(function Modal(
       {children}
       <div className='flex justify-end gap-2 mt-5'>
         <button
-          onClick={() => handlClose()}
+          onClick={handleClose}
           className='text-md cursor-pointer hover:text-stone-800'>
           Close
         </button>
@@ -35,7 +36,9 @@ const Modal = forwardRef(function Modal(
             Go To Checkout
           </button>
         ) : (
-          <button className='text-black bg-yellow-400 text-md cursor-pointer rounded-md hover:bg-yellow-500 px-6 py-2'>
+          <button
+            onClick={onConfirm}
+            className='text-black bg-yellow-400 text-md cursor-pointer rounded-md hover:bg-yellow-500 px-6 py-2'>
             Confirm Order
           </button>
         )}

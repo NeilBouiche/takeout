@@ -1,15 +1,18 @@
-import { useState } from 'react'
 import Items from './Items'
-
+import { useContext } from 'react'
+import { GlobalContext } from '../utils/GlobalProvider'
 const CartList = () => {
-  const [counter, setCounter] = useState(1)
-  const price = 19.99
+  const { state, dispatch } = useContext(GlobalContext)
   return (
     <div className='flex flex-col'>
       <span className='text-xl font-bold'>Your Cart</span>
-      <Items counter={counter} setCounter={setCounter} price={price} />
+      {state.cart.length > 0 ? (
+        state.cart.map((item, index) => <Items order={item} key={index} />)
+      ) : (
+        <span>No Items in your cart</span>
+      )}
       <span className='font-bold basis-full text-right mt-5'>
-        ${(price * counter).toFixed(2)}
+        ${state.totalPrice}
       </span>
     </div>
   )

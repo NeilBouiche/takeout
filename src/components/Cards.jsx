@@ -1,4 +1,22 @@
+import { useContext } from 'react'
+import { GlobalContext } from '../utils/GlobalProvider'
+
 const Cards = ({ name, id, image, price, description }) => {
+  const { state, dispatch } = useContext(GlobalContext)
+
+  const handleAddToCart = () => {
+    dispatch({
+      type: 'ADD_ITEMS',
+      payload: [
+        {
+          name: name,
+          price: price,
+          quantity: 1,
+        },
+      ],
+    })
+  }
+
   return (
     <div id={id} key={id} className=' bg-[#1d1a16] rounded-lg'>
       <img
@@ -14,7 +32,9 @@ const Cards = ({ name, id, image, price, description }) => {
         <div className='h-16'>
           <p className='text-sm px-4  line-clamp-3'>{description}</p>
         </div>
-        <button className=' bg-[#ffc404] px-8 py-2 rounded-lg mb-6 text-black block'>
+        <button
+          onClick={handleAddToCart}
+          className='bg-[#ffc404] px-8 py-2 rounded-lg mb-6 text-black block hover:bg-yellow-300 hover:scale-105 hover:transition'>
           Add to cart
         </button>
       </div>
